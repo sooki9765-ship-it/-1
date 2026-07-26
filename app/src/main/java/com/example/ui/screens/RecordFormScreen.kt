@@ -1,9 +1,6 @@
 package com.example.ui.screens
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
@@ -44,19 +40,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.R
+import com.example.ui.components.BookstoreInspirationSection
+import com.example.ui.components.ReadingQuotesSection
 import com.example.ui.theme.DeepNavyPrimary
-import com.example.ui.theme.GoldAccent
 import com.example.viewmodel.ReadingJournalViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,51 +74,27 @@ fun RecordFormScreen(viewModel: ReadingJournalViewModel) {
             .verticalScroll(scrollState)
             .padding(16.dp)
     ) {
-        // Hero Image Header
-        Card(
-            shape = RoundedCornerShape(16.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Box(modifier = Modifier.height(140.dp)) {
-                Image(
-                    painter = painterResource(id = R.drawable.img_library_hero),
-                    contentDescription = "도서관 배경",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.45f))
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
-                    verticalArrangement = Arrangement.Bottom
-                ) {
-                    Text(
-                        text = "📖 나의 독서기록 작성",
-                        fontSize = 22.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White
-                    )
-                    Text(
-                        text = "오늘 읽은 좋은 책의 마음속 깊은 소감을 기록해 보세요",
-                        fontSize = 12.sp,
-                        color = Color.White.copy(alpha = 0.9f)
-                    )
-                }
-            }
-        }
+        // Dynamic Emotional Reading Quotes & Online Bookstore Portal Header
+        ReadingQuotesSection()
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        // Bookstore Recommendation Shelf (Click to autofill)
+        BookstoreInspirationSection(
+            onSelectBook = { selectedTitle, selectedAuthor, selectedPublisher ->
+                viewModel.bookTitleInput.value = selectedTitle
+                viewModel.authorInput.value = selectedAuthor
+                viewModel.publisherInput.value = selectedPublisher
+            }
+        )
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         // Student Info Section
         Card(
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -254,6 +221,7 @@ fun RecordFormScreen(viewModel: ReadingJournalViewModel) {
         Card(
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
@@ -335,6 +303,7 @@ fun RecordFormScreen(viewModel: ReadingJournalViewModel) {
         Card(
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
